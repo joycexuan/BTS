@@ -1,15 +1,14 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "BTS Albums: Danceability, Energy, and Speechiness from 2013-2022"
+subtitle: "An Analysis of the World's Biggest Boyband's Albums"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Joyce Xuan
+thanks: "Code and data are available at: https://github.com/joycexuan/BTS."
 date: "`r Sys.time()`"
 date-format: "D MMMM YYYY"
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
-format: pdf
+abstract: "This paper utilizes data from Spotify API to discuss the Danceability, Energy, and Speechiness South Korean boyband BTS's albums. We find that while the danceability levels stayed consistent, the energy and speechiness increased. These findings matter as Kpop has been gaining popularity in Western world, and suggest high energy and speechiness as important factors of the success of Kpop. The results provide insights into the evolution of BTS's music and the popularity of Kpop, which are be useful for industry professionals, fans, and researchers interested in the characteristics of successful Kpop."
 number-sections: true
+format: pdf
 bibliography: references.bib
 ---
 
@@ -19,100 +18,174 @@ bibliography: references.bib
 #| message: false
 
 library(tidyverse)
-library(palmerpenguins)
-```
+library(spotifyr)
+library(usethis)
 
+```
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. For instance, @sec-data and @sec-first-point. 
+In recent years, Korean pop music, commonly known as Kpop, has gained immense popularity worldwide. One of the factors that contribute to the success of Kpop music is its danceability, which refers to the ability of a song to inspire dance movements in its listeners. Danceability is a crucial element in popular music, as it can engage listeners and create a sense of joy and energy. In this data analytics paper, we analyze the danceability of BTS's albums over the years and its correlation with the popularity of Kpop.
 
+Danceability, energy, and speechiness are crucial elements in popular music as they can engage listeners. My findings show that [insert findings here]. Using data from Spotify's API, I explored the trend of danceability, energy, and speechiness scores in BTS's albums from their debut in 2013 to their latest release in 2022. I will visualize these scores over time and examine how they have evolved over the years. Additionally, I will draw from third-party sources to investigate the meaning and relationship of these scores to the popularity and reception of Kpop music in North America. 
+
+Despite the majority of their songs being in the Korean language, BTS is the most popular and successful boyband in the world. Therefore, this exploration is critical as it helps Kpop artists and fans visualize the creation, marketing, and ultimate success of Kpop music in the future. By analyzing danceability, energy, and speechiness, we can gain a deeper understanding of the factors that contribute to the success of Kpop and popular music in general.
+
+
+In Section 1, I discuss the source of data used in this paper, the strengths and weaknesses of the Spotify APi, methodologies that follow it, and data terminology. Section 2 discusses the results from my graphs, including the trend over the 2013-2022 time period. In section 3, I explore the factors that contribute to the trends of these scores. 
 
 
 # Data {#sec-data}
 
-Our data is of penguins (@fig-bills).
-
 ```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
+#| label: fig-dance
+#| fig-cap: dance dance
 #| echo: false
+#| error: false
 
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
+dance <- read_csv(here::here("inputs/data/dance_mean.csv"), show_col_types = FALSE)
+
+dance$album_release_year <- as.character(dance$album_release_year)
+
+dance %>% 
+  ggplot(aes(x = reorder(album_name, album_release_date, decreasing = TRUE), y = avg_dance, fill = album_release_year)) +
+  geom_col() +
+  theme_minimal() + 
+  coord_flip() +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(
+    title = "Danceability of BTS albums",
+    fill = "Album Release Year",
+    x = "Average Danceability",
+    y = "Album Name" 
+  )
+
 ```
 
-Talk more about it.
-
-Also bills and their average (@fig-billssssss). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work.)
+XXXX
 
 ```{r}
-#| label: fig-billssssss
-#| fig-cap: More bills of penguins
+#| fig-cap: energy
 #| echo: false
-#| fig-width: 8
-#| fig-height: 4
+#| error: false
 
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
+energy <- read_csv(here::here("inputs/data/energy_mean.csv"), show_col_types = FALSE)
+
+energy$album_release_year <- as.character(energy$album_release_year)
+
+energy %>% 
+  ggplot(aes(x = reorder(album_name, album_release_date, decreasing = TRUE), y = avg_energy, fill = album_release_year)) +
+  geom_col() +
+  theme_minimal() + 
+  coord_flip() +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(
+    title = "Energy of BTS albums",
+    fill = "Album Release Year",
+    x = "Average Energy",
+    y = "Album Name" 
+  )
+
 ```
 
-Talk way more about it. 
+```{r}
+#| fig-cap: speechiness
+#| echo: false
+#| error: false
+
+speechiness <- read_csv(here::here("inputs/data/speechiness_mean.csv"), show_col_types = FALSE)
+
+speechiness$album_release_year <- as.character(speechiness$album_release_year)
+
+speechiness %>% 
+  ggplot(aes(x = reorder(album_name, album_release_date, decreasing = TRUE), y = avg_speechiness, fill = album_release_year)) +
+  geom_col() +
+  theme_minimal() + 
+  coord_flip() +
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  labs(
+    title = "Speechiness of BTS albums",
+    fill = "Album Release Year",
+    x = "Average Speechiness",
+    y = "Album Name" 
+  )
+```
 
 
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+BTS <- read_csv(here::here("inputs/data/BTS_mean.csv"), show_col_types = FALSE)
+
+BTS$album_release_date <- as.Date(BTS$album_release_date)
+
+# Finding the average danceability, energy, and speechiness of BTS albums
+averages <- BTS %>%  
+  group_by(album_name, album_release_date, album_release_year) %>%  
+  summarise(avg_dance = mean(danceability),
+            avg_energy = mean(energy),
+            avg_speechiness = mean(speechiness)) %>% 
+  arrange(album_release_date)
+
+ggplot(averages, aes(x = album_release_date)) +
+  geom_line(aes(y = avg_dance, color = "Danceability")) +
+  geom_line(aes(y = avg_energy, color = "Energy")) +
+  geom_line(aes(y = avg_speechiness, color = "Speechiness")) +
+  labs(title = "Average Danceability, Energy, and Speechiness of BTS Albums",
+       x = "Album Release Date",
+       y = "Average Value",
+       color = "Attribute") +
+  theme_minimal() +
+  scale_color_manual(values = c("Danceability" = "pink", "Energy" = "purple", "Speechiness" = "blue")) +
+  theme(legend.position = "top")
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+
+```
+
+```{r}
+
+BTS %>% 
+  select(album_release_date, danceability, energy, speechiness) %>% 
+  pivot_longer(cols = c(danceability, energy, speechiness)) %>% 
+  ggplot(aes(x = album_release_date, y = value)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_minimal() +
+  geom_vline(xintercept = lubridate::ymd("2018-01-01"),
+             linetype="dotted") +
+  facet_wrap(vars(name),
+             nrow = 3)
+
+
+
+```
+
+
+
+```
 
 # Model
-
-$$
-Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
-$$ {#eq-bayes}
-
-@eq-bayes seems useful, eh?
-
-Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
 
 
 # Results
 
+
+Lorem Ipsum
+
 # Discussion
 
-## First discussion point {#sec-first-point}
-
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
-
-## Second discussion point
-
-## Third discussion point
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
+XXX
 
 \newpage
 
 \appendix
 
-# Appendix {-}
-
+# Appendix {.unnumbered}
 
 # Additional details
 
-
 \newpage
 
-
 # References
-
-
