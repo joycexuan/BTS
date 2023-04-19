@@ -1,6 +1,6 @@
 #### Preamble ####
 # Purpose: Cleans
-# Author: Joyce
+# Author: Joyce Xuan
 # Data: 30 March 2023
 # Contact: joyce.xuan@mail.utoronto.ca
 # License: MIT
@@ -74,17 +74,33 @@ BTS <- BTS |> mutate(
   )
   
 
-#Finding the average danceability of 
+#Finding the average danceability of BTS albums
 dance <- BTS %>%  
   group_by(album_name, album_release_date, album_release_year) %>%  
   summarise(avg_dance = mean(danceability))
 
 dance <- dance[order(dance$album_release_date),]
 
+#Finding the average energy of BTS albums
+energy <- BTS %>%  
+  group_by(album_name, album_release_date, album_release_year) %>%  
+  summarise(avg_energy = mean(energy))
 
+energy <- energy[order(energy$album_release_date),]
+
+#Finding the average speechiness of BTS albums 
+speechiness <- BTS %>%  
+  group_by(album_name, album_release_date, album_release_year) %>%  
+  summarise(avg_speechiness = mean(speechiness))
+
+speechiness <- speechiness[order(speechiness$album_release_date),]
 
 #### Save data ####
 # [...UPDATE THIS...]
 # change cleaned_data to whatever name you end up with at the end of cleaning
 write_csv(dance, "inputs/data/dance_mean.csv")
+write_csv(energy, "inputs/data/energy_mean.csv")
+write_csv(speechiness, "inputs/data/speechiness_mean.csv")
+write_csv(BTS, "inputs/data/BTS_mean.csv")
+
 
