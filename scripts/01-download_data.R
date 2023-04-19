@@ -1,26 +1,29 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Data: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Downloads and saves the data from Spotify API
+# Author: Joyce Xuan
+# Data: 30 March 2023
+# Contact: joyce.xuan@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: 
+# Any other information needed? 
 
 
 #### Workspace setup ####
-library(opendatatoronto)
 library(tidyverse)
-# [...UPDATE THIS...]
+library(spotifyr)
+library(usethis)
+
+# Getting Data about Kpop Groups from Spotify
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
+# Getting data about BTS, the #1 ranked Kpop Boy Group
+BTS <- get_artist_audio_features("BTS")
 
 
 
 #### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
+# Saving BTS data
+saveRDS(BTS, "inputs/data/BTS.rds")
+
 
          
