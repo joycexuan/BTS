@@ -12,8 +12,11 @@ library(here)
 library(dplyr)
 
 #### Clean data ####
+
+#Retrieving data
 BTS <- readRDS("inputs/data/BTS.rds")
 
+#Removing duplicate tracks
 BTS <- BTS[order(BTS$album_release_year),]
 BTS <- BTS[!duplicated(BTS$track_name),]
 BTS <- BTS %>% 
@@ -21,6 +24,7 @@ BTS <- BTS %>%
   filter(!grepl('Mix', track_name)) %>% 
   filter(!grepl('Remix', track_name))
 
+#Removing duplicate Japanese language tracks and only keeping unique ones
 library(cld3)
 korean <- subset(BTS, detect_language(BTS$track_name) == "ko")
 japanese <- subset(BTS, detect_language(BTS$track_name) == "ja")
@@ -30,6 +34,7 @@ japanese <- japanese[-c(3:4),]
 BTS <- BTS[!(BTS$track_name %in% korean$track_name),]
 BTS <- BTS[!(BTS$track_name %in% japanese$track_name),]
 
+#Manually removing the duplicate tracks that were not taken out
 BTS <- BTS %>% 
   filter(!grepl('시차', track_name)) %>% 
   filter(!grepl("6aIJhrO0Y4zeDLxLkj2NXk", track_id)) %>% 
@@ -48,6 +53,7 @@ BTS <- BTS %>%
   filter(!grepl("WAKE UP", track_name)) %>% 
   filter(!grepl("OUTRO.", track_name)) 
 
+#Renaming album names to be more simple 
 BTS <- BTS |> mutate(
   album_name =
     recode(
@@ -96,8 +102,8 @@ speechiness <- BTS %>%
 speechiness <- speechiness[order(speechiness$album_release_date),]
 
 #### Save data ####
-# [...UPDATE THIS...]
-# change cleaned_data to whatever name you end up with at the end of cleaning
+
+#Saving the cleaned data
 write_csv(dance, "inputs/data/dance_mean.csv")
 write_csv(energy, "inputs/data/energy_mean.csv")
 write_csv(speechiness, "inputs/data/speechiness_mean.csv")
