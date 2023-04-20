@@ -1,5 +1,5 @@
 ---
-title: "BTS Song Characteristics Changed After Moving to the US Market"
+title: "How Did BTS's Song Characteristics Change After Moving to the US Market?"
 subtitle: "An Analysis of the World's Biggest Boyband's Danceability, Energy, and Speechiness Levels"
 author: 
   - Joyce Xuan
