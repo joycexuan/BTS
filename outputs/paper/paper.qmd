@@ -1,12 +1,12 @@
 ---
-title: "BTS Albums: Danceability, Energy, and Speechiness from 2013-2022"
-subtitle: "An Analysis of the World's Biggest Boyband's Albums"
+title: "BTS Song Characteristics Changed After Moving to the US Market"
+subtitle: "An Analysis of the World's Biggest Boyband's Danceability, Energy, and Speechiness Levels"
 author: 
   - Joyce Xuan
 thanks: "Code and data are available at: https://github.com/joycexuan/BTS."
 date: "`r Sys.time()`"
 date-format: "D MMMM YYYY"
-abstract: "This paper utilizes data from Spotify API to discuss the Danceability, Energy, and Speechiness South Korean boyband BTS's albums. We find that while the danceability levels stayed consistent, the energy and speechiness increased. These findings matter as Kpop has been gaining popularity in Western world, and suggest high energy and speechiness as important factors of the success of Kpop. The results provide insights into the evolution of BTS's music and the popularity of Kpop, which are be useful for industry professionals, fans, and researchers interested in the characteristics of successful Kpop."
+abstract: "This paper examines how the musical style of K-pop group BTS changed as they moved into the US Market. Data from Spotify API is utilized to discuss the Danceability, Energy, and Speechiness levels of their songs. We find that while the danceability levels increased, the energy stayed consistent and speechiness decreased. These findings matter given the dramatic increase of K-pop interest in the US, and help us understand the characteristics of successful Kpop in the west."
 number-sections: true
 format: pdf
 bibliography: references.bib
@@ -29,9 +29,9 @@ library(usethis)
 >
 > --- RM, Leader of BTS
 
-On April 10th, 2017, Billboard Music Awards announced their nominees for Top Social Artist. Among the nominees was K-pop boy band, BTS, who were the first ever K-pop group to be nominated—and then proceed to win—a Billboard Music Award. Since then, they have continued to win the category for five consecutive years. 
+In recent years, Korean pop music, commonly known as K-pop, has gained immense popularity in the United States and the greater Western market. On April 10th, 2017, Billboard Music Awards announced their nominees for Top Social Artist. Among the nominees was K-pop boy band, BTS, who were the first ever K-pop group to be nominated—and then proceed to win—a Billboard Music Award [@citeBtsFirst]. Since then, they have continued to win the category for five consecutive years. This milestone marked the year that BTS began to gain mass popularity in the United States. They began attending more US TV talk shows, performing at awards ceremonies, establishing a stronger social media presence, and collaborating with US artists to target the US market. 
 
-In recent years, Korean pop music, commonly known as K-pop, has gained immense popularity in the United States and the greater Western market. However, the K-pop music that succeeds in the West may have different characteristics than authentic K-pop music in Korea. Thus, in this paper, I will examine the danceability, energy, and speechiness levels of BTS’s song. and whether these characteristics changed after they moved into the US Market in 2017. My estimand is, what are the average danceability, energy, and speechiness levels of BTS’s songs and albums, and how did these characteristics change after they moved into the US Market in 2017? 
+However, the K-pop music that succeeds in the West may have different characteristics than authentic K-pop music in Korea. Thus, in this paper, I will examine the danceability, energy, and speechiness levels of BTS’s song. and whether these characteristics changed after they moved into the US Market in 2017. My estimand is, what are the average danceability, energy, and speechiness levels of BTS’s songs and albums, and how did these characteristics change after they moved into the US Market in 2017? 
 
 Using data from Spotify API, I explored the trend of danceability, energy, and speechiness scores in BTS’s albums from their debut in 2013 to their latest release in 2022. Danceability, energy, and speechiness are crucial elements in popular music as they can engage and appeal to different listeners. My findings show that, on average over the years, danceability increased, while energy stayed consistent, and speechiness decreased. I will first visualize these data over time by album average, then discuss in detail how these scores changed post-2017. Additionally, I will draw from third-party sources to investigate the meaning and relationship of these scores to the popularity and reception of Kpop music in the United States.
 
@@ -40,8 +40,27 @@ Despite the majority of their songs being in the Korean language, BTS is the mos
 I will first discuss the source of data used in this paper, the strengths and weaknesses of the Spotify API, as well as methodologies and data terminology. Then, I will discuss the results from my graphs, including the trend over the 2013-2022 time period.  Furthermore, I will explore the factors that contribute to the trends of BTS’s song characteristics, and the difference in their style before and after their success in the Western market. For the analysis, I will use the statistical programming language R [@citeR], as well as the packaged tidyverse [@citeTidyverse], here [@citeHere], dplyr [@citeDP], All figures in the report are generated using ggplot2 [@citeGG].
 
 
-
 # Data {#sec-data}
+
+## Data Source and Methodology
+
+The data used in this paper is obtained from Spotify for Developer’s Web API (henceforce Spotify API). The data and specific instructions for retrieval is available through the Spotify API website ^[https://developer.spotify.com/documentation/web-api]. A Spotify account is needed for data retrieval.
+
+Spotify API was chosen as the source of data due to its vast catalog with millions of songs, albums, artists, playlists, and more that is free to access. It retrieves metadata from the platform’s content, enabling developers to create applications that can interact with Spotify's streaming service. Developers can use the APi to search for spotify content, control and interact with different features, manage their personal libraries, retrieve data from different artists, albums, shows, and more. For this paper, I will be using it to retrieve data on BTS albums and songs. Specifically, I will be retrieving the individual tracks’ audio features. This includes information such as the tracks’ Spotify ID, URL, duration, key, as well as acousticness, instrumentalness, and liveness. For my analysis, I chose to specifically examine the danceability, energy, and speechiness levels of BTS’s tracks. Danceability was chosen as dance is an essential part of the K-pop genre, and all idol groups perform a combination of singing and dancing. Dance has also become a way to increase social media presence, which can contribute to an artist’s popularity. Energy was chosen as different levels of energy may attract different groups of audiences, and influence how they resonate and connect with the music. High-energy songs may be more catching, exciting, whereas low-energy songs can be calming, soothing, and intimate. Speechiness was chosen as, since BTS’s songs are mostly in Korean, it would be interesting to see if US audiences, given language barriers, prefer their songs that are lower in speechiness more. 
+
+## Data Terminology
+
+According to Spotify for Developers, Danceability refers to how suitable a track is for dancing. It is assessed based on a combination of musical elements, including rhythm stability, temp, beat strength, and overall regularity. It is measured from least danceable to most danceable on a scale of 0.0 to 1.0. Energy represents a perceptual measure of the track’s intensity and activity, and energetic tracks are typically fast, loud, and noisy. Energy is a measure from 0.0 to 1.0. Perceptual features that contribute to this attribute include perceived loudness, dynamic range, timbre, onset rate, and general entropy. For example, death metal music would score as high energy, while a Bach prelude would score as low. Finally, speechiness, also measured from 0.0 to 1.0, is measured by detecting the presence of spoken words in a track. Exclusively speech-like tracks such as audiobooks and talk shows would score closer to 1.0. If a value is above 0.66, the track is likely to be made entirely of spoken words. If a value is in between 0,33 and 0.66, it may be a combination of music and speech in sections or layered. If a value is below 0.33, it is likely music or other non-speech-like tracks [@citeSpotifyDev].
+
+## Attributes 
+The use of Spotify API has both strengths and limitations.  It provides free access to one of the world’s largest music streaming platforms. Spotify API grants users a vast amount of music-related data, including track information, audio features, artist details, album details, playlists, and more. This rich data can be used by developers to create a wide range of music-related applications, and gives immense room for creative exploration. It also provides comprehensive documentation for its API, including detailed guides, references, as well as code examples, making it easier for developers to understand and use the API effectively.
+
+However, it may not support all possible customization options that developers may require. Developers may need to work within the constraints of the API and find creative workarounds if their desires are not supported. Moreover, Spotify API is specific to the Spotify music streaming service, which means that the data retrieved will be dependent on the Spotify ecosystem. Moreover, while we can measure attributes of danceability, energy, and speechiness on a scale of 0.0 to 1.0 that Spotify API provides, it is unclear how Spotify has constructed this. Therefore, understanding the effect of how this measurement is constructed is an important area for future research. 
+
+
+## Data Visualization
+
+### Average Danceability of BTS Albums 
 
 ```{r}
 #| label: fig-dance
@@ -62,13 +81,15 @@ dance %>%
   labs(
     title = "Danceability of BTS albums",
     fill = "Album Release Year",
-    x = "Average Danceability",
-    y = "Album Name" 
+    x = "Album Name",
+    y = "Average Danceability" 
   )
 
 ```
+In @fig-dance, the overall trend of the plot shows a relatively consistent trend in the average danceability of BTS’s albums over the years. The vertical axis shows the album names, and the horizontal axis shows the average danceability scores. The legend shows the color-coded years in which the different albums were released. As observed, BTS’s most danceable album was their debut album from 2013, *2 Cool 4 Skool*, at 0.717. We see a slight dip in danceability in the years 2015 and 2016, with *HYYH2* and *Young Forever* scoring 0.536 and 0.512, respectively. After 2017, while there were still moderate fluctuations, the scores showed a slightly increasing trajectory. Overall, this trend highlights that no matter their popularity or year, all BTS albums remained relatively danceable. However, after they shifted their focus on the US market in 2017, there were no more dips and average danceability remained high.
 
-XXXX
+
+### Average Energy of BTS Albums 
 
 ```{r}
 #| label: fig-energy
@@ -89,11 +110,13 @@ energy %>%
   labs(
     title = "Energy of BTS albums",
     fill = "Album Release Year",
-    x = "Average Energy",
-    y = "Album Name" 
+    x = "Album Name",
+    y = "Average Energy" 
   )
 
 ```
+@fig-energy shows a bar chart of the average energy levels of BTS albums. The vertical axis shows the album names, and the horizontal axis shows the average energy levels, and the legend shows the color-coded years in which the different albums were released. According to the graph, BTS’s first album in 2013 was comparably lower in energy, at 0.646. Their album with the lowest energy, *MOTS Journey*, sits at 0.589. However, this was a Japanese-language album, and the language and audience choice may have been part of the reason for its relatively low energy. The album with the second-lowest energy, *BE*, has a score of 0.643. With that being said, this score is still a very high one. The album with the highest average energy peaked in 2017, which was the year BTS started gaining attention in the US market. Overall, although there was no noticeable increase or decrease, the energy levels stayed consistent and high, and suggests that high energy levels attributes to BTS's global popularity. 
+
 
 ```{r}
 #| label: fig-speechiness
@@ -114,45 +137,25 @@ speechiness %>%
   labs(
     title = "Speechiness of BTS albums",
     fill = "Album Release Year",
-    x = "Average Speechiness",
-    y = "Album Name" 
+    x = "Album Name",
+    y = "Average Speechiness" 
   )
 ```
+@fig-speechiness shows the average speechiness of BTS albums. The overall trend of the plot shows a downward trajectory in the albums’ average speechiness over the years, with fluctuations. The vertical axis shows the album names, while the horizontal axis displays the speechiness scores. It is observed that BTS’s debut album, *2 Cool 4 Skool*, was the highest in speechiness out of all their albums, scoring 0.369. Spotify API describes a score of higher than 0.33 but lower than 0.66 to be a combination of speech and music, such as rap music. However, all of BTS’s other albums had much lower speechiness scores, which shows the potential of lower speechiness being a factor that enables more popularity in the US market, as Korean songs higher in speechiness may be more difficult for non-Korean speakers to appreciate. 
 
 
+# Results
 
 ```{r}
-library(dplyr)
-library(ggplot2)
+#| label: fig-afterUS
+#| fig-cap: Visualization of BTS's Song Characteristics Pre and Post 2017
+#| echo: false
+#| error: false
+#| warning: false
+#| message: false
 
 BTS <- read_csv(here::here("inputs/data/BTS_mean.csv"), show_col_types = FALSE)
-
 BTS$album_release_date <- as.Date(BTS$album_release_date)
-
-# Finding the average danceability, energy, and speechiness of BTS albums
-averages <- BTS %>%  
-  group_by(album_name, album_release_date, album_release_year) %>%  
-  summarise(avg_dance = mean(danceability),
-            avg_energy = mean(energy),
-            avg_speechiness = mean(speechiness)) %>% 
-  arrange(album_release_date)
-
-ggplot(averages, aes(x = album_release_date)) +
-  geom_line(aes(y = avg_dance, color = "Danceability")) +
-  geom_line(aes(y = avg_energy, color = "Energy")) +
-  geom_line(aes(y = avg_speechiness, color = "Speechiness")) +
-  labs(title = "Average Danceability, Energy, and Speechiness of BTS Albums",
-       x = "Album Release Date",
-       y = "Average Value",
-       color = "Attribute") +
-  theme_minimal() +
-  scale_color_manual(values = c("Danceability" = "pink", "Energy" = "purple", "Speechiness" = "blue")) +
-  theme(legend.position = "top")
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y")
-
-```
-
-```{r}
 
 BTS %>% 
   select(album_release_date, danceability, energy, speechiness) %>% 
@@ -164,39 +167,54 @@ BTS %>%
   geom_vline(xintercept = lubridate::ymd("2017-01-01"),
              linetype="dotted") +
   facet_wrap(vars(name),
-             nrow = 3)
-
-
+             nrow = 3) +
+  labs(
+    title = "BTS Song Characteristics From 2013-2022",
+    x = "Year",
+    y = "Value" 
+  )
 
 ```
+@fig-afterUS shows the danceability, energy, and speechiness levels of BTS songs, grouped vertically by album. The vertical axis shows the values of the scores, while the horizontal axis shows the year. A vertical dotted line on the year 2017 creates a clearer visualization of BTS’s scores before and after they enter and gain more exposure in the US market. 
 
+In terms of danceability, the solid blue line shows that while the average danceability slightly decreased from 2013 to 2017, it rose back up from 2017 to 2022. The first album, which had the highest average danceability score, also has the song with the highest danceability score out of all of BTS’s songs. However, there appears to be a lot of variations within the majority of the albums, as there are one of two outlier songs with significantly lower danceability than the rest. After BTS shifted into the US market, there appears to be less variation of the danceability levels within their albums, with the exception of their second album in 2017. 
 
+While @fig-energy displays a relatively consistent trend in the energy levels of BTS’s albums, the solid blue line in @fig-afterUS shows that the average energy slightly decreased after BTS moved into the US market in 2017. Prior to 2017, there appears to be multiple songs that were extremely close to being at the highest possible energy scoring, with the highest score being 0.993 from BTS’s fourth overall album. Interestingly, we see that despite the average energy scores being high, there typically are a few songs that are drastically lower in energy level within most albums. Prior to 2017, BTS’s albums appear to consist of mostly extremely high energy songs with one or two lower-energy songs. However, after shifting to expand to the US market in 2017, their albums appear to consist of better balances and more even spreads of high, medium, and low energy songs. 
 
-```
-
-# Model
-
-
-# Results
-
-
-Lorem Ipsum
+Lastly, while BTS’s albums generally have low speechiness, @fig-afterUS showed that there were certain outlier songs extremely high in speechiness. However, most of these occurred prior to BTS’’s shift in 2017. After 2017, the average speechiness continues to decrease over the years, suggesting that less speechy songs aided in helping BTS gain more popularity in the US. However, there were a few songs from 2017-2020 that appear to score nearly 0.5 in speechiness levels, with an outlier occurring in the third album of 2020. 
 
 # Discussion
 
-XXX
+## Background on BTS 
+### Formation and Early Years of BTS
+
+BTS, also known as Bangtan Sonyeondan, is a South Korean boy band consisting of seven members. Initially formed in 2010, the group debuted in 2013 with the single album *2 Cool 4 Skool* on June 13th, 2013. Unlike most other successful K-pop groups, BTS did not come from a major company with a proven track record of launching idol groups. Instead, BTS was formed by a small company called Big Hit Entertainment, and was the first boy band to debut under the company [@citeKpopWiki]. 
+
+While K-pop idol groups are traditionally confined by their companies to sing mainstream, popular songs of certain genres, the founder and co-CEO of Big Hit Entertainment, Bang Si-Hyuk, gave BTS the creative freedom to produce and pursue the music they wanted. Because of this, BTS was able to express their thoughts, be genuine, and make music about the pain felt by today’s generation [@citeTime]. 
+
+BTS's hip-hop heavy debut album, *2 Cool 4 Skool*, shed a spotlight on the anxiety experienced by young people when confronted with high parental expectations. This topic, along with many others addressed by the group, were all considered taboo in South Korean society [@citeHerald]. However, BTS was not afraid to speak out on them. Despite coming from a small company with little resources, the album reached top five on the prominent Gaon Music Chart. It wasn’t until their album, *The Most Beautiful Moment in Life, Part 1* (Abbreviated *HYYH* in this paper), was released in 2015 that BTS started to experiment with other styles of music besides hip hop. Through this, BTS aimed to express the beauty and anxiousness of “youth”, defined metaphorically as the most beautiful moment in life [@citeKpopWiki].
+
+### Entering and Gaining Popularity in the US Market in 2017
+
+After rising to the top of the charts in their home country, South Korea, BTS began to set their sights further into the world. Prior to 2017, in the West, K-pop was still regarded as a relatively niche genre that not many people paid attention to. However, during this year, BTS played arenas in the United States as part of their world tour, for which tickets were sold out within hours. After finishing their tour in North America, BTS became the first K-pop group to win a Billboard award the same year, breaking a six-year winning streak held by Justin Bieber in the Top Social Artist category. This win led US and Western media to put more focus on BTS, gaining them more popularity. In November 2017, BTS was the first K-pop group to perform at the American Music Awards, and ended their year with a performance on Dick Clark’s New Year’s Rockin’ Eve [@citeKpopWiki]. 
+
+In addition to their success in the US music industry, during this year, BTS also partnered with UNICEF for their “Love Myself” campaign. The campaign was established with the intention of helping to end violence, bullying abuse, and promote well-being and self-love amongst young people. 
+
+### Further Success in the US
+
+BTS paved the way for K-pop artists by being presenters at the 2019 Grammy Awards, as well as the first K-pop group to perform on Saturday Night Live. In 2020, BTS returned to the Grammy Awards, and became the first Korean act to perform on the stage. Later that year, they released their first fully-English song, Dynamite, which debuted at number one on the US *Billboard* Hot 100 chart. BTS, once again, set history as the first all-South Korean act to do so. They would continue to have a total of six Number One Songs on the chart, and make history with the most Number One songs on the *Billboard* Hot 100 this decade [@citeNME]. BTS then returned to the 2021 Grammy Awards as the first K-pop artists recognized by the Recording Academy with a nomination for Best Pop Duo/Group Performance [@citeKpopWiki]. 
+
+## BTS's Style Change After Entering the US
+BTS's expansion and shift into the US market has led to a noticeable impact on their music style. As they gained more exposure and popularity in the US, their music has shown changes in various aspects. In terms of danceability, their songs have exhibited a trend of slightly increasing danceability scores after entering the US market in 2017, indicating a potential shift towards more danceable and catchy tunes. BTS’s US Television Debut was dancing and performing their hit song, DNA, on the American Music Awards in 2017. They continued to dance and perform multiple hits for American television shows, and the rising danceability in their songs made their songs more engaging for a wider audience, as US audiences can enjoy dance despite not understanding their Korean lyrics. Moreover, it is important to note that no other Western group act co-existing with BTS has the ability to sing and dance to the extent that they can, further enhancing their appeal. 
+
+Similarly, the energy levels in their music have shown a shift towards a better balance of high, medium, and low energy songs, compared to their earlier albums that predominantly featured high-energy tracks with hip-hop style music. High average levels of energy in their music creates a sense of excitement, intensity, and dynamism for their international audience, encouraging fans to chant along during live performances. It is easier for US and Western audiences to engage with high-energy songs than slow Korean ballads with meaningful lyrics due to the language barrier. Moreover, the speechiness levels in their music have decreased after 2017. After carefully examining the dataset, I found that the outliers with extremely high speechiness were all skits, which are spoken audio sketches that commonly appear in hip hop albums [@citeKoreaboo]. However, the Korean-language spoken skits were not included in any albums after 2017 until late 2020, potentially due to consideration of Western audiences’ inability to understand. In addition, many of BTS’s songs prior to entering the US market had heavier Korean rap-sections, which may lead to higher speechiness scores. However, in order to enable non-Korean speakers to follow along, BTS shifted to simpler lyrics and more lively melodies. These changes in music attributes may reflect BTS's efforts to cater to a wider international audience, adapt to different cultural contexts, and explore new musical styles to connect with their global fanbase.
+
+
+## Weaknesses and Next Steps
+Our paper utilizes data from Spotify API to examine the danceability, energy, and speechiness levels of BTS. However, this is only an aspect of the attributes of BTS’s songs as measured by Spotify's metrics. These metrics may not fully capture all the attributes of BTS's music, and there may be other relevant factors that were not considered.  It could be beneficial to explore additional metrics or data sources to gain a more comprehensive understanding of how BTS's music changed over time. The paper also mentions that the measurements of danceability, energy, and speechiness are unclear. Further research could involve validating the accuracy and reliability of these metrics, or exploring alternative measures that could better capture the changes in BTS's music style. Moreover, it is challenging to determine whether BTS changed their music style to cater to the US audience, or if their increased popularity in the US influenced their music style. 
+
 
 \newpage
-
-\appendix
-
-# Appendix {.unnumbered}
-
-# Additional details
-
-\newpage
-
-# Acknowledgements 
 
 
 # References
