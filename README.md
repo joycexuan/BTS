@@ -1,4 +1,4 @@
-# BTS Song Characteristics Changed AfterMoving to the US Market: An Analysis of the World’s Biggest Boyband’s Danceability, Energy, and Speechiness Leveles 
+# How Did BTS's Song Characteristics Change After Moving to the US Market? : An Analysis of the World’s Biggest Boyband’s Danceability, Energy, and Speechiness Leveles 
 
 ## Overview
 This repo contains the code (R), data (CSV), and final PDF document for a paper that examines the danceability, energy, and speechiness levels of South Korean K-pop group, BTS.
