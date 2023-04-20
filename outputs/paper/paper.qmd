@@ -25,21 +25,27 @@ library(usethis)
 
 # Introduction
 
-In recent years, Korean pop music, commonly known as Kpop, has gained immense popularity worldwide. One of the factors that contribute to the success of Kpop music is its danceability, which refers to the ability of a song to inspire dance movements in its listeners. Danceability is a crucial element in popular music, as it can engage listeners and create a sense of joy and energy. In this data analytics paper, we analyze the danceability of BTS's albums over the years and its correlation with the popularity of Kpop.
+> "Music transcends language. BTS communicates with our fans by staying true to ourselves and believing in music every day."
+>
+> --- RM, Leader of BTS
 
-Danceability, energy, and speechiness are crucial elements in popular music as they can engage listeners. My findings show that [insert findings here]. Using data from Spotify's API, I explored the trend of danceability, energy, and speechiness scores in BTS's albums from their debut in 2013 to their latest release in 2022. I will visualize these scores over time and examine how they have evolved over the years. Additionally, I will draw from third-party sources to investigate the meaning and relationship of these scores to the popularity and reception of Kpop music in North America. 
+On April 10th, 2017, Billboard Music Awards announced their nominees for Top Social Artist. Among the nominees was K-pop boy band, BTS, who were the first ever K-pop group to be nominated—and then proceed to win—a Billboard Music Award. Since then, they have continued to win the category for five consecutive years. 
+
+In recent years, Korean pop music, commonly known as K-pop, has gained immense popularity in the United States and the greater Western market. However, the K-pop music that succeeds in the West may have different characteristics than authentic K-pop music in Korea. Thus, in this paper, I will examine the danceability, energy, and speechiness levels of BTS’s song. and whether these characteristics changed after they moved into the US Market in 2017. My estimand is, what are the average danceability, energy, and speechiness levels of BTS’s songs and albums, and how did these characteristics change after they moved into the US Market in 2017? 
+
+Using data from Spotify API, I explored the trend of danceability, energy, and speechiness scores in BTS’s albums from their debut in 2013 to their latest release in 2022. Danceability, energy, and speechiness are crucial elements in popular music as they can engage and appeal to different listeners. My findings show that, on average over the years, danceability increased, while energy stayed consistent, and speechiness decreased. I will first visualize these data over time by album average, then discuss in detail how these scores changed post-2017. Additionally, I will draw from third-party sources to investigate the meaning and relationship of these scores to the popularity and reception of Kpop music in the United States.
 
 Despite the majority of their songs being in the Korean language, BTS is the most popular and successful boyband in the world. Therefore, this exploration is critical as it helps Kpop artists and fans visualize the creation, marketing, and ultimate success of Kpop music in the future. By analyzing danceability, energy, and speechiness, we can gain a deeper understanding of the factors that contribute to the success of Kpop and popular music in general.
 
+I will first discuss the source of data used in this paper, the strengths and weaknesses of the Spotify API, as well as methodologies and data terminology. Then, I will discuss the results from my graphs, including the trend over the 2013-2022 time period.  Furthermore, I will explore the factors that contribute to the trends of BTS’s song characteristics, and the difference in their style before and after their success in the Western market. For the analysis, I will use the statistical programming language R [@citeR], as well as the packaged tidyverse [@citeTidyverse], here [@citeHere], dplyr [@citeDP], All figures in the report are generated using ggplot2 [@citeGG].
 
-In Section 1, I discuss the source of data used in this paper, the strengths and weaknesses of the Spotify APi, methodologies that follow it, and data terminology. Section 2 discusses the results from my graphs, including the trend over the 2013-2022 time period. In section 3, I explore the factors that contribute to the trends of these scores. 
 
 
 # Data {#sec-data}
 
 ```{r}
 #| label: fig-dance
-#| fig-cap: dance dance
+#| fig-cap: Average Danceability of BTS Albums from 2013-2022
 #| echo: false
 #| error: false
 
@@ -65,7 +71,8 @@ dance %>%
 XXXX
 
 ```{r}
-#| fig-cap: energy
+#| label: fig-energy
+#| fig-cap: Average Energy of BTS Albums from 2013-2022
 #| echo: false
 #| error: false
 
@@ -89,7 +96,8 @@ energy %>%
 ```
 
 ```{r}
-#| fig-cap: speechiness
+#| label: fig-speechiness
+#| fig-cap: Average Speechiness of BTS Albums from 2013-2022
 #| echo: false
 #| error: false
 
@@ -153,7 +161,7 @@ BTS %>%
   geom_point(alpha = 0.5) +
   geom_smooth() +
   theme_minimal() +
-  geom_vline(xintercept = lubridate::ymd("2018-01-01"),
+  geom_vline(xintercept = lubridate::ymd("2017-01-01"),
              linetype="dotted") +
   facet_wrap(vars(name),
              nrow = 3)
@@ -187,5 +195,8 @@ XXX
 # Additional details
 
 \newpage
+
+# Acknowledgements 
+
 
 # References
