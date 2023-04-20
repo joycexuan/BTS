@@ -1,16 +1,21 @@
-# Starter folder
+# BTS Song Characteristics Changed AfterMoving to the US Market: An Analysis of the World’s Biggest Boyband’s Danceability, Energy, and Speechiness Leveles 
 
 ## Overview
+This repo contains the code (R), data (CSV), and final PDF document for a paper that examines the danceability, energy, and speechiness levels of South Korean K-pop group, BTS.
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
-
-To use this folder, click the green "Code" button", then "Download ZIP". Move the downloaded folder to where you want to work on your own computer, and then modify it to suit.
 
 ## File Structure
 
-The repo is structured as:
+The data for this paper was retrieved from Spotify APi.
 
--   `input/data` contains the data sources used in analysis including the raw data.
--   `outputs/data` contains the cleaned dataset that was constructed.
--   `outputs/paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
--   `scripts` contains the R scripts used to simulate, download and clean data.
+The repo is organized as follows:
+
+outputs/paper/paper.qmd: The Quarto file including the data analysis
+
+outputs/paper/paper.pdf: The PDF file of the paper generated using the Quarto file
+
+scripts: Contains the 4 scripts used to simulate, acquire, clean, and test the data
+
+inputs/data: contains the data sources used in analysis including the raw data.
+
+Link to Spotify APi can be found here: https://developer.spotify.com/documentation/web-api
